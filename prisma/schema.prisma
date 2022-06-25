@@ -17,6 +17,7 @@ model ShortLink {
   createdAt   DateTime @default(now())
 
   url         String  @db.VarChar(1000)
+  expiresAt  DateTime 
 
   slug      String  @unique
 

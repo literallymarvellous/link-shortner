@@ -27,17 +27,17 @@ export default async function handler(
   if (data === null) {
     res.statusCode = 404;
 
-    res.setHeader("Content-Type", "application/json");
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-      "Cache-Control",
-      "s-maxage=10000000, stale-while-revalidate=60"
-    );
-
     res.send(JSON.stringify({ message: "slug not found" }));
 
     return;
   }
+
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Cache-Control",
+    "s-maxage=10000000, stale-while-revalidate=60"
+  );
 
   return res.json(data);
 }
