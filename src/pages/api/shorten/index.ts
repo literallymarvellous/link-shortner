@@ -8,11 +8,13 @@ const Link = z.object({
   expirationTime: z.string(),
 });
 
+type Link = z.infer<typeof Link>;
+
 export default async function shorten(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const body = req.body;
+  const body = req.body as Link;
 
   if (!Link.safeParse(body).success) {
     res
