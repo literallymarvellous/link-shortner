@@ -18,12 +18,22 @@ export default async function redirect(
   if (data === null) {
     res.statusCode = 404;
 
-    res.send(JSON.stringify({ message: "slug not found" }));
+    res.send(JSON.stringify({ message: "link not found" }));
 
     return;
   }
 
-  console.log(data.url);
+  if (Date.now() > data.expiresAt.getSeconds()) {
+    res.statusCode = 404;
+
+    await prisma.shortLink.delete({
+      where: {
+        slug: shortLink,
+      },
+    });
+
+    res.json({ message: "link expired" });
+  }
 
   res.redirect(data.url);
 }

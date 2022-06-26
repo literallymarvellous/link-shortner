@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const Link = z.object({
   url: z.string(),
-  expirationTime: z.string(),
+  expirationTime: z.number(),
 });
 
 type Link = z.infer<typeof Link>;
@@ -17,9 +17,7 @@ export default async function shorten(
   const body = req.body as Link;
 
   if (!Link.safeParse(body).success) {
-    res
-      .status(404)
-      .send(JSON.stringify({ message: "invalid url or time type" }));
+    res.status(400).send(JSON.stringify({ error: "invalid url or time type" }));
   }
 
   if (body.url == null) {
